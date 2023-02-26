@@ -30,3 +30,5 @@ RUN set -xeu; \
     chmod +x upx; \
     mv upx /usr/local/bin/upx; \
     rm -f upx.tar.xz
+
+ENTRYPOINT ["/bin/bash"]

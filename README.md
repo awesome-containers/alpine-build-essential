@@ -14,23 +14,23 @@ Supplied Alpine Linux Images:
 ```bash
 ghcr.io/awesome-containers/alpine-build-essential:latest
 ghcr.io/awesome-containers/alpine-build-essential:3.17
-ghcr.io/awesome-containers/alpine-build-essential:3.17-0.0.1
+ghcr.io/awesome-containers/alpine-build-essential:3.17-0.0.2
 
 ghcr.io/awesome-containers/alpine-build-essential:3.16
-ghcr.io/awesome-containers/alpine-build-essential:3.16-0.0.1
+ghcr.io/awesome-containers/alpine-build-essential:3.16-0.0.2
 
 ghcr.io/awesome-containers/alpine-build-essential:3.15
-ghcr.io/awesome-containers/alpine-build-essential:3.15-0.0.1
+ghcr.io/awesome-containers/alpine-build-essential:3.15-0.0.2
 ```
 
 ```bash
 docker.io/awesomecontainers/alpine-build-essential:latest
 docker.io/awesomecontainers/alpine-build-essential:3.17
-docker.io/awesomecontainers/alpine-build-essential:3.17-0.0.1
+docker.io/awesomecontainers/alpine-build-essential:3.17-0.0.2
 
 docker.io/awesomecontainers/alpine-build-essential:3.16
-docker.io/awesomecontainers/alpine-build-essential:3.16-0.0.1
+docker.io/awesomecontainers/alpine-build-essential:3.16-0.0.2
 
 docker.io/awesomecontainers/alpine-build-essential:3.15
-docker.io/awesomecontainers/alpine-build-essential:3.15-0.0.1
+docker.io/awesomecontainers/alpine-build-essential:3.15-0.0.2
 ```
