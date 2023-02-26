@@ -18,7 +18,7 @@ jobs:
           - version: 3.15
           - version: 3.16
           - version: 3.17
-            latest: true
+            latest: 'true'
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -45,7 +45,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build and push Docker images
-        if: matrix.version != true
+        if: matrix.latest != 'true'
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -59,7 +59,7 @@ jobs:
           build-args: ALPINE_VERSION=${{ matrix.version }}
 
       - name: Build and push Docker images
-        if: matrix.version == true
+        if: matrix.latest == 'true'
         uses: docker/build-push-action@v4
         with:
           context: .
