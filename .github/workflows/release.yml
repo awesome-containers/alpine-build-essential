@@ -1,0 +1,75 @@
+name: Create Release
+on:
+  push:
+    tags:
+      - "*.**.**"
+
+jobs:
+  build_and_push:
+    name: Push Docker image to multiple registries
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - version: 1.15
+          - version: 1.16
+          - version: 1.17
+            latest: true
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - name: Set env
+        id: env
+        run: |
+          echo ::set-output name=tag::${GITHUB_REF#refs/tags/}
+          echo ::set-output name=repository::${GITHUB_REPOSITORY/-}
+
+      - name: Log in to GitHub Container registry
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Log in to Docker Hub Container registry
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Docker images
+        if: matrix.version != true
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Containerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ matrix.version }}-${{ steps.env.outputs.tag }}
+            ghcr.io/${{ github.repository }}:${{ matrix.version }}
+            docker.io/${{ steps.env.outputs.repository }}:${{ matrix.version }}-${{ steps.env.outputs.tag }}
+            docker.io/${{ steps.env.outputs.repository }}:${{ matrix.version }}
+          build-args: ALPINE_VERSION=${{ matrix.version }}
+
+      - name: Build and push Docker images
+        if: matrix.version == true
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Containerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            ghcr.io/${{ github.repository }}:${{ matrix.version }}-${{ steps.env.outputs.tag }}
+            ghcr.io/${{ github.repository }}:${{ matrix.version }}
+            ghcr.io/${{ github.repository }}:latest
+            docker.io/${{ steps.env.outputs.repository }}:${{ matrix.version }}-${{ steps.env.outputs.tag }}
+            docker.io/${{ steps.env.outputs.repository }}:${{ matrix.version }}
+            docker.io/${{ steps.env.outputs.repository }}:latest
+          build-args: ALPINE_VERSION=${{ matrix.version }}
