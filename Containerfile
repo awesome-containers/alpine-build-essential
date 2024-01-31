@@ -1,4 +1,4 @@
-ARG ALPINE_VERSION=3.17
+ARG ALPINE_VERSION=3.19
 FROM docker.io/alpine:$ALPINE_VERSION AS build
 
 # hadolint ignore=DL3018
